@@ -24,6 +24,10 @@ spec:
             - name: ALLOWED_ORIGINS
               value: "http://issuance:3000,http://verification:3001,http://localhost:8081"
             # Vite expects env vars prefixed with VITE_ so they are embedded at build time.
+            - name: VITE_ISSUE_API
+              value: "http://kube-credential.pravinkumarmahato.dev:3000"
+            - name: VITE_VERIFY_API
+              value: "http://kube-credential.pravinkumarmahato.dev:3001"
             - name: VITE_ISSUE_API_KEY
               valueFrom:
                 secretKeyRef:

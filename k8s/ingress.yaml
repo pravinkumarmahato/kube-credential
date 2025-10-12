@@ -12,9 +12,8 @@ metadata:
     # nginx.ingress.kubernetes.io/rewrite-target: /$2
     # For cloud load balancers you may need annotations such as aws/alb or gce specific ones.
 spec:
-  # Set a host for local testing (add a hosts entry for kube-credential.local -> minikube ip)
   rules:
-    - host: kube-credential.local
+    - host: kube-credential.pravinkumarmahato.dev
       http:
         paths:
           - path: /api/issue
@@ -38,8 +37,9 @@ spec:
                 name: frontend
                 port:
                   number: 80
-  # TLS placeholder example (create TLS secret and uncomment)
-  # tls:
-  #   - hosts:
-  #       - example.yourdomain.com
-  #     secretName: kube-credential-tls
+
+  
+  tls:
+    - hosts:
+        - kube-credential.pravinkumarmahato.dev
+      secretName: kube-credential-tls
