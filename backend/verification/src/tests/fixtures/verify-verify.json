@@ -1,0 +1,15 @@
+{
+  "description": "Verify credential via verification service",
+  "method": "POST",
+  "path": "/api/verify",
+  "headers": { "Accept": "application/json" },
+  "body": { "name": "Fixture Alice", "email": "fixture-alice@example.com" },
+  "expectedStatus": 200,
+  "expectedBody": {
+    "valid": true,
+    "credentialId": "{credentialId}",
+    "issuedBy": "{issuedBy}",
+    "verifiedBy": "{verifiedBy}"
+  },
+  "normalize": { "wildcard": ["credentialId", "issuedBy", "verifiedBy"], "remove": ["issuedAt", "verifiedAt"] }
+}

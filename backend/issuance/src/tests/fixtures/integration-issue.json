@@ -1,0 +1,14 @@
+{
+  "description": "Integration - issue credential",
+  "method": "POST",
+  "path": "/api/issue",
+  "headers": { "Accept": "application/json" },
+  "body": { "name": "Integration Alice", "email": "int-alice@example.com" },
+  "expectedStatus": 201,
+  "expectedBody": {
+    "credentialId": "{credentialId}",
+    "issuedBy": "{issuedBy}",
+    "message": "credential issued by {issuedBy}"
+  },
+  "normalize": { "wildcard": ["credentialId", "issuedBy"], "remove": ["issuedAt"] }
+}

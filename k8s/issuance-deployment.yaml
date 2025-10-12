@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: issuance
+  namespace: kube-credential
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: issuance
+  template:
+    metadata:
+      labels:
+        app: issuance
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: issuance
+          image: ghcr.io/pravinkumarmahato/issuance:latest
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POSTGRES_HOST
+              value: postgres-issuance
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-issuance-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-issuance-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-issuance-secret
+                  key: POSTGRES_DB
+            - name: VERIFICATION_SERVICE_URL
+              value: "http://verification:3001"
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: issuance-api-key
+                  key: issuance_api_key
+            - name: ALLOWED_ORIGINS
+              value: "http://issuance:3000,http://verification:3001,http://localhost:8081"
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      # No local file-backed storage required; issuance will use Postgres
+      # Secrets are provided via env var `API_KEY` from `issuance-api-key`
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: issuance
+  namespace: kube-credential
+spec:
+  selector:
+    app: issuance
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000

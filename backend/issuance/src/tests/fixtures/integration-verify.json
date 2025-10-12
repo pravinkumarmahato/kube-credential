@@ -1,0 +1,15 @@
+{
+  "description": "Integration - verify credential",
+  "method": "POST",
+  "path": "/api/verify",
+  "headers": { "Accept": "application/json" },
+  "body": { "name": "Integration Alice", "email": "int-alice@example.com" },
+  "expectedStatus": 200,
+  "expectedBody": {
+    "valid": true,
+    "credentialId": "{credentialId}",
+    "issuedBy": "{issuedBy}",
+    "verifiedBy": "{verifiedBy}"
+  },
+  "normalize": { "wildcard": ["credentialId", "issuedBy", "verifiedBy"], "remove": ["verifiedAt", "issuedAt"] }
+}

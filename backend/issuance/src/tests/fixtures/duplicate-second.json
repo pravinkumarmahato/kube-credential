@@ -1,0 +1,14 @@
+{
+  "description": "Duplicate issuance for Bob should return already issued",
+  "method": "POST",
+  "path": "/api/issue",
+  "headers": { "Accept": "application/json" },
+  "body": { "name": "Bob", "email": "bob@example.com" },
+  "expectedStatus": 200,
+  "expectedBody": {
+    "message": "credential already issued by {issuedBy}",
+    "credentialId": "{credentialId}",
+    "issuedBy": "{issuedBy}"
+  },
+  "normalize": { "wildcard": ["credentialId", "issuedBy"], "remove": ["issuedAt"] }
+}

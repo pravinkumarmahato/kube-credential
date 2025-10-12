@@ -1,0 +1,14 @@
+{
+  "description": "Verify check for Check Alice",
+  "method": "POST",
+  "path": "/api/issue/check",
+  "headers": { "Accept": "application/json" },
+  "body": { "name": "Check Alice", "email": "check-alice@example.com" },
+  "expectedStatus": 200,
+  "expectedBody": {
+    "issued": true,
+    "worker": "{worker}",
+    "timestamp": "{timestamp}"
+  },
+  "normalize": { "wildcard": ["worker", "timestamp"] }
+}

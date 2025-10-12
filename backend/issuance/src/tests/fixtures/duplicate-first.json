@@ -1,0 +1,14 @@
+{
+  "description": "First issuance for Bob",
+  "method": "POST",
+  "path": "/api/issue",
+  "headers": { "Accept": "application/json" },
+  "body": { "name": "Bob", "email": "bob@example.com" },
+  "expectedStatus": 201,
+  "expectedBody": {
+    "message": "credential issued by {issuedBy}",
+    "credentialId": "{credentialId}",
+    "issuedBy": "{issuedBy}"
+  },
+  "normalize": { "wildcard": ["credentialId", "issuedBy"], "remove": ["issuedAt"] }
+}

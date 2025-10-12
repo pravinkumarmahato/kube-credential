@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kube-credential-ingress
+  namespace: kube-credential
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    # If using nginx ingress on a cloud provider, you may want provider-specific annotations
+    # Example for nginx with basic settings:
+    # kubernetes.io/tls-acme: "true"
+    # nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # For cloud load balancers you may need annotations such as aws/alb or gce specific ones.
+spec:
+  # Set a host for local testing (add a hosts entry for kube-credential.local -> minikube ip)
+  rules:
+    - host: kube-credential.local
+      http:
+        paths:
+          - path: /api/issue
+            pathType: Prefix
+            backend:
+              service:
+                name: issuance
+                port:
+                  number: 3000
+          - path: /api/verify
+            pathType: Prefix
+            backend:
+              service:
+                name: verification
+                port:
+                  number: 3001
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+  # TLS placeholder example (create TLS secret and uncomment)
+  # tls:
+  #   - hosts:
+  #       - example.yourdomain.com
+  #     secretName: kube-credential-tls

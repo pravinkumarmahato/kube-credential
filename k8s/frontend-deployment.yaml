@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: kube-credential
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: frontend
+          image: ghcr.io/pravinkumarmahato/frontend:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: ALLOWED_ORIGINS
+              value: "http://issuance:3000,http://verification:3001,http://localhost:8081"
+            # Vite expects env vars prefixed with VITE_ so they are embedded at build time.
+            - name: VITE_ISSUE_API
+              value: "http://localhost:3000"
+            - name: VITE_VERIFY_API
+              value: "http://localhost:3001"
+            - name: VITE_ISSUE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: issuance-api-key
+                  key: issuance_api_key
+            - name: VITE_VERIFY_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: verification-api-key
+                  key: verification_api_key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: kube-credential
+spec:
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-verification-secret
+  namespace: kube-credential
+type: Opaque
+stringData:
+  POSTGRES_USER: "verification"
+  POSTGRES_PASSWORD: "verification-password"
+  POSTGRES_DB: "verification"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc-verification
+  namespace: kube-credential
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-verification
+  namespace: kube-credential
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-verification
+  template:
+    metadata:
+      labels:
+        app: postgres-verification
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-verification-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-verification-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-verification-secret
+                  key: POSTGRES_DB
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-pvc-verification
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-verification
+  namespace: kube-credential
+spec:
+  type: ClusterIP
+  selector:
+    app: postgres-verification
+  ports:
+    - port: 5432
+      targetPort: 5432
