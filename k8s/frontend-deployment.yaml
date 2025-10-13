@@ -27,7 +27,11 @@ spec:
             - name: VITE_ISSUE_API
               value: "http://kube-credential.pravinkumarmahato.dev"
             - name: VITE_VERIFY_API
+<<<<<<< HEAD
               value: "http://kube-credential.pravinkumarmahato.dev"
+=======
+              value: "http://kube-credential.pravinkumarmahato"
+>>>>>>> 6c13c347f07713c393cb10875a9990bda46b8a3e
             - name: VITE_ISSUE_API_KEY
               valueFrom:
                 secretKeyRef:
