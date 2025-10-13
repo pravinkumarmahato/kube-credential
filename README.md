@@ -93,43 +93,11 @@ kube-credential/
 └─ README.md
 ```
 
-### Architecture diagram (ASCII)
+### Architecture diagram 
 
 This lightweight diagram shows how the pieces interact. It intentionally omits infrastructure details (PVCs, ingress controller internals) for clarity.
+<img width="1024" height="1024" alt="Architecture Diagram" src="https://github.com/user-attachments/assets/f8f458f0-1b03-415f-8cc3-8e9e4caf3629" />
 
-```
-					+----------------+
-					|    Browser     |
-					|  (SPA Frontend)|
-					+--------+-------+
-							 |
-							 |  HTTP (/api/issue, /api/verify)
-							 |
-				+------------v-------------+
-				|        Ingress /         |
-				|   HTTP Router / NGINX    |
-				+------+-----+-------------+
-					   |     |
-		   /api/issue  |     |  /api/verify
-					 +--v-+ +--v--+
-					 |Issuance|Verification|
-					 |Service | Service    |
-					 |(3000)  |(3001)      |
-					 +--+-----+--+--------+
-						|        |
-						|        |
-						|        +--> Verification stores verification attempts
-						|                 in its own Postgres DB
-						|
-	Issuance writes to  v
-	its own Postgres DB (credentials table)
-
-	+---------------------------+    +---------------------------+
-	| Postgres (issuance DB)    |    | Postgres (verification DB)|
-	| - credentials             |    | - verifications           |
-	+---------------------------+    +---------------------------+
-
-```
 
 ## High-level architecture
 
@@ -205,6 +173,7 @@ Frontend runtime env (Vite / nginx):
 
 Prerequisites: Node.js (18+ recommended), npm, and optionally Docker and kubectl/minikube for k8s.
 
+```cmd
 :: 1️⃣ Set project path
 set "PROJECT=s:\Assessments\kube-credential"
 
@@ -299,7 +268,7 @@ echo [INFO] Cleaning up resources...
 kubectl delete namespace kube-credential
 minikube stop
 minikube delete
-
+```
 
 ## Tests
 
