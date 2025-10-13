@@ -83,7 +83,11 @@ metadata:
 spec:
   selector:
     app: issuance
+  # Expose as NodePort so local minikube and external tooling can access this service directly.
+  type: NodePort
   ports:
     - protocol: TCP
       port: 3000
       targetPort: 3000
+      # explicit stable nodePort in the 30000-32767 range
+      nodePort: 32000
