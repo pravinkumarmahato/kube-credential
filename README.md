@@ -6,7 +6,7 @@ Email: praveenmahato026@gmail.com
 
 Contact Number: +91 9969636009
 
-Hosted Frontend URL: http://13.53.97.117:5000/
+Hosted Frontend URL: http://13.60.235.124:5000/
 
 Github Repository URL: https://github.com/pravinkumarmahato/kube-credential
 
