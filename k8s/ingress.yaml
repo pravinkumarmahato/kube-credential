@@ -5,21 +5,15 @@ metadata:
   namespace: kube-credential
   annotations:
     kubernetes.io/ingress.class: "nginx"
-
-    # Let’s Encrypt certificate automation via cert-manager
-    cert-manager.io/cluster-issuer: "letsencrypt-production"
-
-    # Ensure proper path rewriting and HTTPS redirection
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-
-    # Optional: allow large request bodies if your APIs need it
-    nginx.ingress.kubernetes.io/proxy-body-size: "20m"
-
+    # If using nginx ingress on a cloud provider, you may want provider-specific annotations
+    # Example for nginx with basic settings:
+    # kubernetes.io/tls-acme: "true"
+    # nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # For cloud load balancers you may need annotations such as aws/alb or gce specific ones.
 spec:
-  ingressClassName: nginx
   rules:
-    - host: kube-credentials.pravinkumarmahato.dev
+    - host: kube-credential.pravinkumarmahato.dev
       http:
         paths:
           - path: /api/issue
@@ -29,7 +23,6 @@ spec:
                 name: issuance
                 port:
                   number: 3000
-
           - path: /api/verify
             pathType: Prefix
             backend:
@@ -37,7 +30,6 @@ spec:
                 name: verification
                 port:
                   number: 3001
-
           - path: /
             pathType: Prefix
             backend:
@@ -45,8 +37,3 @@ spec:
                 name: frontend
                 port:
                   number: 80
-
-  tls:
-    - hosts:
-        - kube-credentials.pravinkumarmahato.dev
-      secretName: kube-credential-tls

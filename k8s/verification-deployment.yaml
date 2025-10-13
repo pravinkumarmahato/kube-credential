@@ -64,7 +64,7 @@ spec:
                   name: issuance-api-key
                   key: issuance_api_key
             - name: ALLOWED_ORIGINS
-              value: "http://issuance:3000,http://verification:3001,http://localhost:8081"
+              value: "http://issuance:3000,http://verification:3001,http://13.53.97.117:8081"
           readinessProbe:
             httpGet:
               path: /ready
