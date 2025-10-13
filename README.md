@@ -1,8 +1,11 @@
 # Kube Credential — Issuance & Verification
 
 Name: Pravin Kumar Mahato
+
 Email: praveenmahato026@gmail.com
+
 Contact Number: +91 9969636009
+
 Hosted Frontend URL: (http://13.53.97.117:5000/)
 
 ## Assignment summary
@@ -15,6 +18,26 @@ Kube Credential is a small microservice-based app that demonstrates credential i
 - Kubernetes manifests to deploy the services and backing Postgres instances
 
 Each backend exposes JSON APIs. Issuance records credential payloads (canonicalized and hashed) and records which worker (pod hostname) issued them. Verification calls the Issuance service to check whether a credential was issued and records verification attempts locally.
+
+## Screensorts
+
+### Issue Page
+<img width="1920" height="1080" alt="Screenshot (582)" src="https://github.com/user-attachments/assets/b48c9b57-510a-4146-a9af-c49c6ac135f1" />
+
+### Credential Created
+<img width="1920" height="1080" alt="Screenshot (583)" src="https://github.com/user-attachments/assets/c837ca39-56f6-4f5c-88d1-00061aa3d3ab" />
+
+### Credential Already Exists
+<img width="1920" height="1080" alt="Screenshot (587)" src="https://github.com/user-attachments/assets/9600c209-9103-4550-907f-e2f0f965f1a3" />
+
+### Verify Page
+<img width="1920" height="1080" alt="Screenshot (584)" src="https://github.com/user-attachments/assets/5c04ac93-207d-4a98-93f9-d160d7bc9a7b" />
+
+### Verify Valid Credential
+<img width="1920" height="1080" alt="Screenshot (585)" src="https://github.com/user-attachments/assets/febc0556-9f6e-4c63-81f3-b1865fa24a01" />
+
+### Verify Invalid Credential
+<img width="1920" height="1080" alt="Screenshot (586)" src="https://github.com/user-attachments/assets/2700693b-3d1f-44f3-b691-3f497d398d54" />
 
 ## Repository layout
 
