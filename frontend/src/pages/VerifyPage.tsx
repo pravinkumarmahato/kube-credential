@@ -21,7 +21,7 @@ export default function VerifyPage() {
   return (
     <section>
       <h2 className="text-lg font-medium mb-3">Verify Credential</h2>
-      <textarea value={text} onChange={(e) => setText(e.target.value)} rows={10} className="w-full border rounded-md p-3" placeholder='{ "name": "Alice" }' />
+      <textarea value={text} onChange={(e) => setText(e.target.value)} rows={10} className="w-full border rounded-md p-3" placeholder='{ "credentialId": "9339e9508e802ebf" }' />
       <div className="mt-3">
         <button onClick={submit} disabled={loading} className="px-4 py-2 bg-emerald-600 text-white rounded-md disabled:opacity-60">Verify</button>
       </div>
