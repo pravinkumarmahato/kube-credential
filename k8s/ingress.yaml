@@ -19,7 +19,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: kube-credential.pravinkumarmahato.dev
+    - host: kube-credentials.pravinkumarmahato.dev
       http:
         paths:
           - path: /api/issue
@@ -48,5 +48,5 @@ spec:
 
   tls:
     - hosts:
-        - kube-credential.pravinkumarmahato.dev
+        - kube-credentials.pravinkumarmahato.dev
       secretName: kube-credential-tls
