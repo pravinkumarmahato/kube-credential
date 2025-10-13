@@ -48,6 +48,89 @@ Top-level folders and their purpose:
 - `frontend` — React SPA (Vite + TypeScript), Dockerfile and nginx entrypoint that exposes runtime env to the SPA.
 - `k8s` — Kubernetes manifests: deployments, services, Postgres resources, ingress.
 
+### Folder structure
+
+Below is a concise folder tree for the repository (top 3 levels). Use this as a quick reference to find services, manifests and tests.
+
+```
+kube-credential/
+├─ backend/
+│  ├─ issuance/                # issuance microservice (TypeScript)
+│  │  ├─ src/
+│  │  │  ├─ app/
+│  │  │  │  ├─ controllers/
+│  │  │  │  ├─ middlewares/
+│  │  │  │  ├─ repositories/
+│  │  │  │  ├─ services/
+│  │  │  │  └─ routes/
+│  │  │  ├─ db/
+│  │  │  ├─ config/
+│  │  │  └─ tests/
+│  │  ├─ Dockerfile
+│  │  └─ package.json
+│  ├─ verification/            # verification microservice (TypeScript)
+│  │  ├─ src/
+│  │  │  ├─ app/
+│  │  │  ├─ db/
+│  │  │  └─ tests/
+│  │  ├─ Dockerfile
+│  │  └─ package.json
+├─ frontend/                   # React (Vite) SPA
+│  ├─ src/
+│  │  ├─ pages/
+│  │  ├─ api/
+│  │  └─ test/
+│  ├─ Dockerfile
+│  └─ package.json
+├─ k8s/
+│  ├─ issuance-deployment.yaml
+│  ├─ verification-deployment.yaml
+│  ├─ frontend-deployment.yaml
+│  ├─ postgres-issuance.yaml
+│  ├─ postgres-verification.yaml
+│  └─ ingress.yaml
+├─ k8s-secrets.yaml
+└─ README.md
+```
+
+### Architecture diagram (ASCII)
+
+This lightweight diagram shows how the pieces interact. It intentionally omits infrastructure details (PVCs, ingress controller internals) for clarity.
+
+```
+					+----------------+
+					|    Browser     |
+					|  (SPA Frontend)|
+					+--------+-------+
+							 |
+							 |  HTTP (/api/issue, /api/verify)
+							 |
+				+------------v-------------+
+				|        Ingress /         |
+				|   HTTP Router / NGINX    |
+				+------+-----+-------------+
+					   |     |
+		   /api/issue  |     |  /api/verify
+					 +--v-+ +--v--+
+					 |Issuance|Verification|
+					 |Service | Service    |
+					 |(3000)  |(3001)      |
+					 +--+-----+--+--------+
+						|        |
+						|        |
+						|        +--> Verification stores verification attempts
+						|                 in its own Postgres DB
+						|
+	Issuance writes to  v
+	its own Postgres DB (credentials table)
+
+	+---------------------------+    +---------------------------+
+	| Postgres (issuance DB)    |    | Postgres (verification DB)|
+	| - credentials             |    | - verifications           |
+	+---------------------------+    +---------------------------+
+
+```
+
 ## High-level architecture
 
 - The frontend calls `/api/issue` (issuance) and `/api/verify` (verification). In Kubernetes the `Ingress` routes `/api/issue` to the Issuance service and `/api/verify` to the Verification service.
