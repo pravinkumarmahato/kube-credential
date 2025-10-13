@@ -5,8 +5,8 @@ set -e
 
 cat > /usr/share/nginx/html/env.js <<EOF
 window.__ENV = {
-  VITE_ISSUE_API: "http://" + window.location.hostname + ":3000",
-  VITE_VERIFY_API: "http://" + window.location.hostname + ":3001",
+  VITE_ISSUE_API: "${VITE_ISSUE_API}",
+  VITE_VERIFY_API: "${VITE_VERIFY_API}",
   VITE_ISSUE_API_KEY: "${VITE_ISSUE_API_KEY}",
   VITE_VERIFY_API_KEY: "${VITE_VERIFY_API_KEY}"
 };
