@@ -112,12 +112,14 @@ Issuance service (default port 3000)
 - POST /api/issue
 	- Request: JSON credential payload (arbitrary JSON). Example: `{ "name": "Alice" }`
 	- Response (201 created):
-		{
+	```cmd
+  		{
 			"message": "credential issued by worker-xyz",
 			"credentialId": "<sha256-hash>",
 			"issuedBy": "worker-xyz",
 			"issuedAt": "<ISO timestamp>"
 		}
+  	```
 	- If already issued: 200 with message `credential already issued by <worker-id>`.
 
 - POST /api/issue/check
@@ -129,7 +131,8 @@ Verification service (default port 3001)
 - POST /api/verify
 	- Request: either the original credential JSON or `{ "credentialId": "<id>" }`.
 	- Response when valid:
-		{
+	```cmd
+  		{
 			"valid": true,
 			"credentialId": "<id>",
 			"issuedBy": "<worker-id>",
@@ -137,6 +140,7 @@ Verification service (default port 3001)
 			"verifiedAt": "<ISO>",
 			"verifiedBy": "<worker-id>"
 		}
+  ```
 	- When not issued: `{ "valid": false }`
 
 Frontend
