@@ -21,10 +21,6 @@ spec:
           ports:
             - containerPort: 80
           env:
-            - name: ALLOWED_ORIGINS
-              value: "http://issuance:3000,http://verification:3001,http://13.53.97.117:32000,http://13.53.97.117:32001,http://13.53.97.117:32080"
-            # Vite expects env vars prefixed with VITE_ so they are embedded at build time.
-            # Use the EC2 host with the service NodePorts so the SPA can reach the services from external clients.
             - name: VITE_ISSUE_API_KEY
               valueFrom:
                 secretKeyRef:
