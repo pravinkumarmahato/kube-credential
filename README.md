@@ -1,6 +1,6 @@
 # Kube Credential — Issuance & Verification
 
-## Assignment summary
+## Summary
 
 Kube Credential is a small microservice-based app that demonstrates credential issuance and verification. It contains:
 
