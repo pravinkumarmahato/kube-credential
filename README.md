@@ -1,22 +1,12 @@
 # Kube Credential — Issuance & Verification
 
-Name: Pravin Kumar Mahato
-
-Email: praveenmahato026@gmail.com
-
-Contact Number: +91 9969636009
-
-Hosted Frontend URL: http://13.60.235.124:5000/
-
-Github Repository URL: https://github.com/pravinkumarmahato/kube-credential
-
 ## Assignment summary
 
 Kube Credential is a small microservice-based app that demonstrates credential issuance and verification. It contains:
 
-- Issuance service (Node.js + TypeScript, port 3000, NodePort 32000) Exposed-> http://13.53.97.117:32000/api/issue
-- Verification service (Node.js + TypeScript, port 3001, NodePort 32001) Exposed -> http://13.53.97.117:32001/api/verify
-- Frontend SPA (React + TypeScript, served by nginx on port 80, NodePort 32080) Exposed -> http://13.53.97.117:5000/
+- Issuance service (Node.js + TypeScript, port 3000, NodePort 32000) Exposed-> http://<host_ip>:32000/api/issue
+- Verification service (Node.js + TypeScript, port 3001, NodePort 32001) Exposed -> http://<host_ip>:32001/api/verify
+- Frontend SPA (React + TypeScript, served by nginx on port 80, NodePort 32080) Exposed -> http://<host_ip>:5000/
 - Kubernetes manifests to deploy the services and backing Postgres instances
 
 Each backend exposes JSON APIs. Issuance records credential payloads (canonicalized and hashed) and records which worker (pod hostname) issued them. Verification calls the Issuance service to check whether a credential was issued and records verification attempts locally.
